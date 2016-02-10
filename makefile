@@ -1,2 +1,2 @@
 debug:
-	gcc -g src/main.c -o bin/realtime-redis-stat
+	gcc -g src/redis-cmd-aggregate.c -o bin/redis-cmd-aggregate
