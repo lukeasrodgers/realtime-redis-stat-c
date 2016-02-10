@@ -14,3 +14,15 @@ The basic idea is to provide a couple commandline tools that will:
 * maybe another tool to track additions/deletions to sets, lists, and provide a running delta
 * it would be great if we could periodically query redis and do something like get the size of a growing list,
 or the number of elements in a growing set, and provide some estimations about its growth.
+
+## The code
+
+C99
+
+## Compiling
+
+For now, just run `make debug`. Assumes GCC is installed.
+
+## Running
+
+`redis-cli monitor | bin/redis-cmd-aggregate`
