@@ -47,6 +47,7 @@ const char *string_commands[30] = {
 };
 const int num_string_commands = 17;
 const char **commands[30];
+int num_commands;
 
 int main(int argc, char *argv[]) {
   ssize_t read(int fildes, void *buf, size_t nbyte);
@@ -173,47 +174,16 @@ void maybe_print(struct command *command_list) {
 }
 
 void print_header() {
-  int i, num_commands;
-  if (strcmp(command_type, "key") == 0) {
-    num_commands = num_key_commands;
-    /* linked list of commands is generated backwards from array,
-     * so interate in reverse */
-    for (i = num_commands - 1; i >= 0; i--) {
-      /* truncate command name to ensure even spacing */
-      printf("%.5s\t", (*commands)[i]);
-    }
-    printf("\n");
+  int i;
+  /* linked list of commands is generated backwards from array,
+   * so interate in reverse, and truncate name to ensure even spacing
+   * at the cost of some legibility */
+
+  for (i = num_commands - 1; i >= 0; i--) {
+    printf("%.5s\t", (*commands)[i]);
   }
-  else if (strcmp(command_type, "set") == 0) {
-    num_commands = num_set_commands;
-    /* linked list of commands is generated backwards from array,
-     * so interate in reverse */
-    for (i = num_commands - 1; i >= 0; i--) {
-      /* truncate command name to ensure even spacing */
-      printf("%.5s\t", (*commands)[i]);
-    }
-    printf("\n");
-  }
-  else if (strcmp(command_type, "list") == 0) {
-    num_commands = num_set_commands;
-    /* linked list of commands is generated backwards from array,
-     * so interate in reverse */
-    for (i = num_commands - 1; i >= 0; i--) {
-      /* truncate command name to ensure even spacing */
-      printf("%.5s\t", (*commands)[i]);
-    }
-    printf("\n");
-  }
-  else if (strcmp(command_type, "string") == 0) {
-    num_commands = num_set_commands;
-    /* linked list of commands is generated backwards from array,
-     * so interate in reverse */
-    for (i = num_commands - 1; i >= 0; i--) {
-      /* truncate command name to ensure even spacing */
-      printf("%.5s\t", (*commands)[i]);
-    }
-    printf("\n");
-  }
+  printf("\n");
+  return;
 }
 
 struct command *initialize_commands() {
@@ -261,15 +231,19 @@ int handle_options(int argc, char **argv[]) {
   printf("arg1: %s\n", (*argv)[1]);
   if (strcmp((*argv)[1], "key") == 0) {
     strcpy(command_type, "key");
+    num_commands = num_key_commands;
   }
   else if (strcmp((*argv)[1], "set") == 0) {
     strcpy(command_type, "set");
+    num_commands = num_set_commands;
   }
   else if (strcmp((*argv)[1], "list") == 0) {
-    strcpy(command_type, "liset");
+    strcpy(command_type, "list");
+    num_commands = num_list_commands;
   }
   else if (strcmp((*argv)[1], "string") == 0) {
     strcpy(command_type, "string");
+    num_commands = num_string_commands;
   }
   else {
     fprintf(stderr, "invalid command group");
