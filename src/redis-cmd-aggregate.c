@@ -3,15 +3,10 @@
 #include <sys/uio.h>
 #include <unistd.h>
 #include <string.h>
-#include <stdlib.h>
+
+#include "commands.h"
 
 #define BUFSIZE 128
-
-struct command {
-  long count;
-  const char *name;
-  struct command *next;
-};
 
 /* counter for "maybe print" */
 int mp = 0;
@@ -29,8 +24,6 @@ int main(int argc, char *argv[]) {
 
   void handle_line(char (*buf)[BUFSIZE], struct command *command_list, int bytes_read);
   void print_header();
-  extern struct command *initialize_commands();
-  extern int handle_options(int argc, char **argv[]);
 
   if ((commandline_options_check = handle_options(argc, &argv)) == 1) {
     return 1;
@@ -155,14 +148,3 @@ void print_header() {
   printf("\n");
   return;
 }
-
-struct command *add_command(struct command *current_command, int i) {
-  struct command *new_command = (struct command*) malloc(sizeof(struct command));
-  printf("adding %s\n", (*commands)[i]);
-  new_command->count = 0;
-  new_command->name = (*commands)[i];
-  /* current_command may be NULL, which is okay */
-  new_command->next = current_command;
-  return new_command;
-}
-

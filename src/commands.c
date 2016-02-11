@@ -1,8 +1,11 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+
+#include "commands.h"
 
 const char **commands[30];
-char command_type[30];
+static char command_type[30];
 int num_commands;
 
 const char *key_commands[30] = {
@@ -84,8 +87,19 @@ int handle_options(int argc, char **argv[]) {
     num_commands = num_string_commands;
   }
   else {
-    fprintf(stderr, "invalid command group");
+    fprintf(stderr, "invalid command group\n");
     return 1;
   }
   return 0;
 }
+
+struct command *add_command(struct command *current_command, int i) {
+  struct command *new_command = (struct command*) malloc(sizeof(struct command));
+  printf("adding %s\n", (*commands)[i]);
+  new_command->count = 0;
+  new_command->name = (*commands)[i];
+  /* current_command may be NULL, which is okay */
+  new_command->next = current_command;
+  return new_command;
+}
+
