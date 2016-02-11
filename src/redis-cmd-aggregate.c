@@ -58,7 +58,7 @@ void handle_line(char (*buf)[BUFSIZE], struct command *command_list, int bytes_r
   if (get_cmd_success == 1) {
     fprintf(stderr, "no command read\n");
   }
-  else {
+  else if (get_cmd_success == 0) {
     printf("extracted cmd: %s\n", cmd);
     increment_command_count(&cmd, command_list);
   }
@@ -90,6 +90,9 @@ int extract_command_name(char (*buf)[BUFSIZE], int bytes_read, char (*cmd)[30]) 
     i++;
   }
   if (i == bytes_read) {
+    if (strcmp(*buf, "OK") == 0) {
+      return 2;
+    }
     return 1;
   }
   while ((c = (*buf)[i]) != '"' && i < bytes_read) {

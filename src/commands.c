@@ -69,7 +69,6 @@ int handle_options(int argc, char **argv[]) {
     fprintf(stderr, "must provide at least one option\n");
     return 1;
   }
-  printf("arg1: %s\n", (*argv)[1]);
   if (strcmp((*argv)[1], "key") == 0) {
     strcpy(command_type, "key");
     num_commands = num_key_commands;
@@ -95,7 +94,6 @@ int handle_options(int argc, char **argv[]) {
 
 struct command *add_command(struct command *current_command, int i) {
   struct command *new_command = (struct command*) malloc(sizeof(struct command));
-  printf("adding %s\n", (*commands)[i]);
   new_command->count = 0;
   new_command->name = (*commands)[i];
   /* current_command may be NULL, which is okay */
