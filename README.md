@@ -25,4 +25,10 @@ For now, just run `make debug`. Assumes GCC is installed.
 
 ## Running
 
-`redis-cli monitor | bin/redis-cmd-aggregate`
+`redis-cli monitor | bin/redis-cmd-aggregate COMMAND_GROUP`
+
+`COMMAND_GROUP` must (currently) be one of:
+* key
+* set
+* list
+* string

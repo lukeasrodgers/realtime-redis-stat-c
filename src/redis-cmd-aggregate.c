@@ -180,7 +180,37 @@ void print_header() {
      * so interate in reverse */
     for (i = num_commands - 1; i >= 0; i--) {
       /* truncate command name to ensure even spacing */
-      printf("%.5s\t", key_commands[i]);
+      printf("%.5s\t", (*commands)[i]);
+    }
+    printf("\n");
+  }
+  else if (strcmp(command_type, "set") == 0) {
+    num_commands = num_set_commands;
+    /* linked list of commands is generated backwards from array,
+     * so interate in reverse */
+    for (i = num_commands - 1; i >= 0; i--) {
+      /* truncate command name to ensure even spacing */
+      printf("%.5s\t", (*commands)[i]);
+    }
+    printf("\n");
+  }
+  else if (strcmp(command_type, "list") == 0) {
+    num_commands = num_set_commands;
+    /* linked list of commands is generated backwards from array,
+     * so interate in reverse */
+    for (i = num_commands - 1; i >= 0; i--) {
+      /* truncate command name to ensure even spacing */
+      printf("%.5s\t", (*commands)[i]);
+    }
+    printf("\n");
+  }
+  else if (strcmp(command_type, "string") == 0) {
+    num_commands = num_set_commands;
+    /* linked list of commands is generated backwards from array,
+     * so interate in reverse */
+    for (i = num_commands - 1; i >= 0; i--) {
+      /* truncate command name to ensure even spacing */
+      printf("%.5s\t", (*commands)[i]);
     }
     printf("\n");
   }
@@ -194,6 +224,18 @@ struct command *initialize_commands() {
   if (strcmp(command_type, "key") == 0) {
     *commands = key_commands;
     num_commands = num_key_commands;
+  }
+  else if (strcmp(command_type, "set") == 0) {
+    *commands = set_commands;
+    num_commands = num_set_commands;
+  }
+  else if (strcmp(command_type, "list") == 0) {
+    *commands = list_commands;
+    num_commands = num_list_commands;
+  }
+  else if (strcmp(command_type, "string") == 0) {
+    *commands = string_commands;
+    num_commands = num_string_commands;
   }
   for (i = 0; i < num_commands; i++) {
     current_command = add_command(current_command, i);
@@ -212,10 +254,26 @@ struct command *add_command(struct command *current_command, int i) {
 }
 
 int handle_options(int argc, char **argv[]) {
-  if (argc < 1) {
-    fprintf(stderr, "must provide at least one option");
+  if (argc < 2) {
+    fprintf(stderr, "must provide at least one option\n");
     return 1;
   }
-  strcpy(command_type, "key");
+  printf("arg1: %s\n", (*argv)[1]);
+  if (strcmp((*argv)[1], "key") == 0) {
+    strcpy(command_type, "key");
+  }
+  else if (strcmp((*argv)[1], "set") == 0) {
+    strcpy(command_type, "set");
+  }
+  else if (strcmp((*argv)[1], "list") == 0) {
+    strcpy(command_type, "liset");
+  }
+  else if (strcmp((*argv)[1], "string") == 0) {
+    strcpy(command_type, "string");
+  }
+  else {
+    fprintf(stderr, "invalid command group");
+    return 1;
+  }
   return 0;
 }
